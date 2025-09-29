@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import  user_router,personalInfo_router,workExperience_router,skill_router,technical_router,softskill_router,skillnameMapping_router,proficiencyMapping_router,skillname_router,proficiency_router
  
 app = FastAPI(
-    title="Fast API",
-    version="1.0.0"
+    title="Fast API"
 )
  
 
