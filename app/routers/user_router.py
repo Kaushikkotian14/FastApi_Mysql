@@ -1,11 +1,22 @@
 from fastapi import  APIRouter,HTTPException,Depends,status
 from database.db import db_dependency
+from datetime import  timedelta
 from schemas.user_schema.createUserSchema import createUser
 from schemas.user_schema.updateUserSchema import UserUpdate
 from schemas.user_schema.deleteUserSchema import deleteUser
 from services.user_services import get_users_service,add_user_service,update_user_service,delete_user_service,hardDelete_user_service
 
 router = APIRouter()
+
+@router.post("/token")
+async def login_for_access_token(username: str, password: str):
+    if username == "testuser" and password == "testpassword":
+        access_token_expires = timedelta(minutes=30)
+        access_token = create_access_token(
+            data={"sub": username}, expires_delta=access_token_expires
+        )
+        return {"access_token": access_token, "token_type": "bearer"}
+    raise HTTPException(status_code=400, detail="Incorrect username or password")
 
 @router.get("/get-users",status_code=status.HTTP_200_OK)
 async def getUsers(db:db_dependency):

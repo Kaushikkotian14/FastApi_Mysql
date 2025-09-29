@@ -7,4 +7,4 @@ class UserUpdate(BaseModel):
     phoneNumber: Optional[str]
     age: Optional[int]
     is_active: Optional[bool] 
-    changed_by: Optional[int]
+    changed_by: int
