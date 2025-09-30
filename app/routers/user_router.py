@@ -1,25 +1,19 @@
 from fastapi import  APIRouter,HTTPException,Depends,status
 from database.db import db_dependency
-from datetime import  timedelta
 from schemas.user_schema.createUserSchema import createUser
 from schemas.user_schema.updateUserSchema import UserUpdate
 from schemas.user_schema.deleteUserSchema import deleteUser
 from services.user_services import get_users_service,add_user_service,update_user_service,delete_user_service,hardDelete_user_service
+from utils.auth import get_current_user
+
+
 
 router = APIRouter()
 
-@router.post("/token")
-async def login_for_access_token(username: str, password: str):
-    if username == "testuser" and password == "testpassword":
-        access_token_expires = timedelta(minutes=30)
-        access_token = create_access_token(
-            data={"sub": username}, expires_delta=access_token_expires
-        )
-        return {"access_token": access_token, "token_type": "bearer"}
-    raise HTTPException(status_code=400, detail="Incorrect username or password")
-
 @router.get("/get-users",status_code=status.HTTP_200_OK)
 async def getUsers(db:db_dependency):
+#    if user is None:
+#         raise HTTPException(status_code=404, details='Authentication Failed')
    users = get_users_service(db)
    if users is None:
         raise HTTPException(status_code=404, details='Users not found')
@@ -27,7 +21,7 @@ async def getUsers(db:db_dependency):
 
 @router.post("/add-user",status_code=status.HTTP_201_CREATED)
 async def addUser(UserData: createUser, db:db_dependency ):
-    return add_user_service(UserData, db) 
+    return  add_user_service(UserData, db) 
     
 @router.put("/update-user/{id}",status_code=status.HTTP_200_OK)
 async def updateUser(id:int,updatedUserData: UserUpdate,db:db_dependency):

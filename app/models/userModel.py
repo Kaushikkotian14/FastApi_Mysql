@@ -21,7 +21,7 @@ class userModel(base):
     uniqueIdentifier = Column(UUID,default =uuid4()) 
     version = Column(DateTime,default = datetime.now())
     
-    # personalInfo = relationship("personalInfo", back_populates="user")
+    personalInfo = relationship("personalInfoModel", back_populates="user")
 
 
 

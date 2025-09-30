@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker,Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Annotated
 
+
 URL_DATABASE = 'mysql+pymysql://root:root@localhost/practice'
 
 engine = create_engine(URL_DATABASE)
@@ -20,3 +21,4 @@ def get_db():
         db.close()
     
 db_dependency = Annotated[Session, Depends(get_db)]
+ 
