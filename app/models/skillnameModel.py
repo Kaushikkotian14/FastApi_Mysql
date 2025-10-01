@@ -18,6 +18,9 @@ class skillnameModel(base):
     deleted_at = Column(DateTime,default = None)
     uniqueIdentifier = Column(UUID,default =uuid4()) 
     version = Column(DateTime,default = datetime.now())
-
+ 
+    skillname_skillnamemapping = relationship("skillnamemappingModel",foreign_keys="[skillnamemappingModel.skillnameId]", back_populates="skillnamemapping_skillname")
   
-    # skillnamemapping = relationship("skillnamemapping", back_populates="skillname")
+    skillname_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_skillname_created_by")
+    skillname_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_skillname_changed_by")
+    skillname_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_skillname_deleted_by")

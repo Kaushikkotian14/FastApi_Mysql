@@ -6,7 +6,7 @@ def workExperience_by_id_repo(workExperienceId,db):
     return workExperience
 
 def get_workExperiences_repo(db):
-    workExperience=db.query(workExperienceModel).all()
+    workExperience=db.query(workExperienceModel).filter(workExperienceModel.deleted_by == None).all()
     return workExperience
 
 def add_workExperience_repo(workExperience,db):

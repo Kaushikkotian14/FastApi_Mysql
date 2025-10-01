@@ -3,5 +3,5 @@ from typing import Optional
 
 class userSchema(BaseModel):
     email: str
-    password:Optional[str]
+    password:str
     userId:int

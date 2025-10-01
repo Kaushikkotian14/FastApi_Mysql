@@ -20,5 +20,10 @@ class skillnamemappingModel(base):
     uniqueIdentifier = Column(UUID,default =uuid4()) 
     version = Column(DateTime,default = datetime.now())
 
-    # technical = relationship("technical", back_populates="skillnamemapping")
-    # skillname = relationship("skillname", back_populates="skillnamemapping")
+    skillnamemapping_technical = relationship("technicalModel",foreign_keys=[technicalId], back_populates="technical_skillnamemapping")
+
+    skillnamemapping_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_skillnamemapping_created_by")
+    skillnamemapping_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_skillnamemapping_changed_by")
+    skillnamemapping_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_skillnamemapping_deleted_by")
+
+    skillnamemapping_skillname = relationship("skillnameModel",foreign_keys=[skillnameId], back_populates="skillname_skillnamemapping")

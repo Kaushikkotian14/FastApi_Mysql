@@ -5,9 +5,9 @@ from database.db import base
 from sqlalchemy.orm import relationship
 
 
-class proficiencyMappingModel(base):
+class proficiencymappingModel(base):
     __tablename__ = "proficiencymapping"
-    proficiencyMapping = Column(Integer, primary_key=True, index=True)
+    proficiencymappingId = Column(Integer, primary_key=True, index=True)
     technicalId = Column(Integer, ForeignKey("technical.technicalId"))
     proficiencyId = Column(Integer, ForeignKey("proficiency.proficiencyId"))
     is_active = Column(Boolean,default=True)
@@ -20,5 +20,10 @@ class proficiencyMappingModel(base):
     uniqueIdentifier = Column(UUID,default =uuid4()) 
     version = Column(DateTime,default = datetime.now())
 
-    # technical = relationship("technical", back_populates="proficiencyMapping")
-    # proficiency = relationship("proficiency", back_populates="proficiencyMapping")
+    proficiencymapping_technical = relationship("technicalModel",foreign_keys=[technicalId], back_populates="technical_proficiencymapping")
+
+    proficiencymapping_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_proficiencymapping_created_by")
+    proficiencymapping_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_proficiencymapping_changed_by")
+    proficiencymapping_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_proficiencymapping_deleted_by")
+
+    proficiencymapping_proficiency = relationship("proficiencyModel",foreign_keys=[proficiencyId], back_populates="proficiency_proficiencymapping")

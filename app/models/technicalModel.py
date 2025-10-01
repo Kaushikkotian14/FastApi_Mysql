@@ -21,6 +21,11 @@ class technicalModel(base):
     version = Column(DateTime,default = datetime.now())
 
 
-    # skill = relationship("skillId", back_populates="technical")
-    # skillnamemapping = relationship("skillnamemapping", back_populates="technical")
-    # proficiencymapping = relationship("proficiencymapping", back_populates="technical")
+    technical_skill = relationship("skillModel",foreign_keys=[skillId], back_populates="skill_technical")
+
+    technical_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_technical_created_by")
+    technical_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_technical_changed_by")
+    technical_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_technical_deleted_by")
+
+    technical_skillnamemapping = relationship("skillnamemappingModel",foreign_keys="[skillnamemappingModel.technicalId]", back_populates="skillnamemapping_technical")
+    technical_proficiencymapping = relationship("proficiencymappingModel",foreign_keys="[proficiencymappingModel.technicalId]", back_populates="proficiencymapping_technical")

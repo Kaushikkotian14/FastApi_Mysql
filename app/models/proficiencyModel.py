@@ -20,4 +20,8 @@ class proficiencyModel(base):
     version = Column(DateTime,default = datetime.now())
 
   
-    # proficiencymapping = relationship("proficiencymapping", back_populates="proficiency")
+    proficiency_proficiencymapping = relationship("proficiencymappingModel",foreign_keys="[proficiencymappingModel.proficiencyId]", back_populates="proficiencymapping_proficiency")
+  
+    proficiency_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_proficiency_created_by")
+    proficiency_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_proficiency_changed_by")
+    proficiency_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_proficiency_deleted_by")

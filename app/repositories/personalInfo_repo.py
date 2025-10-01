@@ -6,7 +6,7 @@ def personalInfo_by_id_repo(personalInfoId,db):
     return personalInfo
 
 def get_personalInfos_repo(db):
-    personalInfo=db.query(personalInfoModel).all()
+    personalInfo=db.query(personalInfoModel).filter(personalInfoModel.deleted_by == None).all()
     return personalInfo
 
 def add_personalInfo_repo(personalInfo,db):

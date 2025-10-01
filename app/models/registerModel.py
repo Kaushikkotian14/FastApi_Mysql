@@ -21,5 +21,9 @@ class registerModel(base):
     uniqueIdentifier = Column(UUID,default =uuid4())  
     version = Column(DateTime,default = datetime.now())
     
-    # user = relationship("user", back_populates="personalInfo")
+    register_user = relationship("userModel",foreign_keys=[userId], back_populates="user_register")
+    
+    register_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_register_created_by")
+    register_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_register_changed_by")
+    register_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_register_deleted_by")
     

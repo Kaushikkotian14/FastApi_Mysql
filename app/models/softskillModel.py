@@ -23,4 +23,8 @@ class softModel(base):
     uniqueIdentifier = Column(UUID,default =uuid4()) 
     version = Column(DateTime,default = datetime.now())
     
-    # skill = relationship("skill", back_populates="soft")
+    soft_skill = relationship("skillModel",foreign_keys=[skillId], back_populates="skill_soft")
+
+    soft_user_created_by = relationship("userModel",foreign_keys=[created_by ], back_populates="user_soft_created_by")
+    soft_user_changed_by = relationship("userModel",foreign_keys=[changed_by ], back_populates="user_soft_changed_by")
+    soft_user_deleted_by = relationship("userModel",foreign_keys=[deleted_by], back_populates="user_soft_deleted_by")

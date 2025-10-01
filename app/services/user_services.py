@@ -6,12 +6,13 @@ from repositories.user_repository import get_users_repo,add_user_repo,user_data_
 def get_users_service(db):
     return get_users_repo(db)   
 
-def add_user_service(userData,db):
+def add_user_service(userData,db,current_user):
     usersData = userModel(**userData.model_dump())
+    usersData.created_by = current_user.userId
     add_user_repo(usersData,db)
     return {"msg": "user created"}
 
-def update_user_service(userId,updatedUserData,db):
+def update_user_service(userId,updatedUserData,db,current_user):
     userData=user_data_by_id_repo(userId,db)
     if userData is None:
         raise HTTPException(status_code=404, details='User not found')
@@ -20,16 +21,16 @@ def update_user_service(userId,updatedUserData,db):
     userData.phoneNumber=updatedUserData.phoneNumber
     userData.age=updatedUserData.age
     userData.is_active=updatedUserData.is_active
-    userData.changed_by=updatedUserData.changed_by
+    userData.changed_by=current_user.userId
     update_user_repo(userData,db) 
     return {"msg": "user is updated"}
 
-def delete_user_service(userId,deleteUserData,db):
+def delete_user_service(userId,db,current_user):
     userData=user_data_by_id_repo(userId,db)
     if userData is None:
         raise HTTPException(status_code=404, details='User not found')
-    userData.is_active=deleteUserData.is_active
-    userData.deleted_by=deleteUserData.deleted_by
+    userData.is_active=False
+    userData.deleted_by=current_user.userId
     userData.deleted_at=datetime.now()
     delete_user_repo(userData,db)
     return {"msg": "user deleted"}
