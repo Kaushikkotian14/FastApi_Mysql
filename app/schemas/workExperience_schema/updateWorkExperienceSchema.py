@@ -6,5 +6,4 @@ class updateWorkExperience(BaseModel):
     totalYears: Optional[int] 
     personalInfoIderId: Optional[int]
     is_active: Optional[bool] 
-    changed_by: int
 

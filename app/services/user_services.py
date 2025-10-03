@@ -1,44 +1,21 @@
 from fastapi import  HTTPException
-from models.userModel import userModel
-from datetime import datetime
-from repositories.user_repository import get_users_repo,add_user_repo,user_data_by_id_repo,update_user_repo,delete_user_repo
+from repositories.user_repository import get_users_repo,add_user_repo,user_data_by_id_repo,update_user_repo,delete_user_repo,hardDelete_user_repo
 
 def get_users_service(db):
     return get_users_repo(db)   
 
 def add_user_service(userData,db,current_user):
-    usersData = userModel(**userData.model_dump())
-    usersData.created_by = current_user.userId
-    add_user_repo(usersData,db)
+    add_user_repo(userData,db,current_user)
     return {"msg": "user created"}
 
 def update_user_service(userId,updatedUserData,db,current_user):
-    userData=user_data_by_id_repo(userId,db)
-    if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
-    userData.firstname= updatedUserData.firstname
-    userData.lastname= updatedUserData.lastname
-    userData.phoneNumber=updatedUserData.phoneNumber
-    userData.age=updatedUserData.age
-    userData.is_active=updatedUserData.is_active
-    userData.changed_by=current_user.userId
-    update_user_repo(userData,db) 
+    update_user_repo(userId,updatedUserData,db,current_user) 
     return {"msg": "user is updated"}
 
 def delete_user_service(userId,db,current_user):
-    userData=user_data_by_id_repo(userId,db)
-    if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
-    userData.is_active=False
-    userData.deleted_by=current_user.userId
-    userData.deleted_at=datetime.now()
-    delete_user_repo(userData,db)
+    delete_user_repo(userId,db,current_user)
     return {"msg": "user deleted"}
 
 def hardDelete_user_service(userId,db):
-    userData=user_data_by_id_repo(userId,db)
-    if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
-    db.delete(userData)
-    db.commit()
+    hardDelete_user_repo(userId,db)
     return {"msg": "user deleted permanently"}

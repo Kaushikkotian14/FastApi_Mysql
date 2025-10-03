@@ -7,5 +7,4 @@ class updatePersonalInfo(BaseModel):
     department: Optional[str]
     userId: Optional[int]
     is_active: Optional[bool] 
-    changed_by: int
 

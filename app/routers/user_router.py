@@ -2,8 +2,6 @@ from fastapi import  APIRouter,HTTPException,Depends,status
 from database.db import db_dependency
 from schemas.user_schema.createUserSchema import createUser
 from schemas.user_schema.updateUserSchema import UserUpdate
-from schemas.user_schema.deleteUserSchema import deleteUser
-from schemas.auth_schema import user_schema
 from services.user_services import get_users_service,add_user_service,update_user_service,delete_user_service,hardDelete_user_service
 from utils.auth import get_current_user
 
