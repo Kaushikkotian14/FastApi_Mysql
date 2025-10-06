@@ -3,8 +3,8 @@ from fastapi import  HTTPException
 from datetime import datetime
 
 
-def user_data_by_id_repo(userId,db):
-    userData=db.query(userModel).filter(userModel.userId == userId).first()
+def user_data_by_id_repo(db,userId):
+    userData=db.query(userModel).filter(userModel.userId == userId and userModel.deleted_by == None).first()
     return userData
 
 def get_users_repo(db):
@@ -21,7 +21,7 @@ def add_user_repo(userData,db,current_user):
 def update_user_repo(userId,updatedUserData,db,current_user):
     userData=user_data_by_id_repo(userId,db)
     if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
+        raise HTTPException(status_code=404, detail='User not found')
     userData.firstname= updatedUserData.firstname
     userData.lastname= updatedUserData.lastname
     userData.phoneNumber=updatedUserData.phoneNumber
@@ -34,7 +34,7 @@ def update_user_repo(userId,updatedUserData,db,current_user):
 def delete_user_repo(userId,db,current_user):
     userData=user_data_by_id_repo(userId,db)
     if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
+        raise HTTPException(status_code=404, detail='User not found')
     userData.is_active=False
     userData.deleted_by=current_user.userId
     userData.deleted_at=datetime.now()
@@ -44,6 +44,6 @@ def delete_user_repo(userId,db,current_user):
 def hardDelete_user_repo(userId,db):
     userData=user_data_by_id_repo(userId,db)
     if userData is None:
-        raise HTTPException(status_code=404, details='User not found')
+        raise HTTPException(status_code=404, detail='User not found')
     db.delete(userData)
     db.commit()

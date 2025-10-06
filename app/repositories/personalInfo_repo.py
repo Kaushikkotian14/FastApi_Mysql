@@ -11,6 +11,11 @@ def get_personalInfos_repo(db):
     personalInfo=db.query(personalInfoModel).filter(personalInfoModel.deleted_by == None).all()
     return personalInfo
 
+def personalInfo_by_id_repo(personalInfoId,db):
+    personalInfo=db.query(personalInfoModel).filter(personalInfoModel.personalInfoId == personalInfoId).first()
+    return personalInfo
+
+
 def add_personalInfo_repo(personalInfo,db,current_user):
     personal_Info = personalInfoModel(**personalInfo.model_dump())
     personal_Info.created_by=current_user.userId

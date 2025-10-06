@@ -1,7 +1,25 @@
-from repositories.workExperience_repo import  get_workExperiences_repo,update_workExperience_repo,add_workExperience_repo,delete_workExperience_repo,hardDelete_workExperience_repo
+from repositories.workExperience_repo import  get_workExperiences_repo,update_workExperience_repo,add_workExperience_repo,delete_workExperience_repo,hardDelete_workExperience_repo,workExperience_by_id_repo
+from repositories.personalInfo_repo import personalInfo_by_id_repo
+from repositories.user_repository import user_data_by_id_repo
+from schemas.workExperience_schema.getworkExperienceByIdSchema import getworkExperienceByIdSchema
 
 def get_workExperiences_service(db):
     return get_workExperiences_repo(db)
+
+def get_workExperience_by_id_service(workexperienceId,db):
+    userWorkExperience = workExperience_by_id_repo(workexperienceId,db)
+    userpersonalInfo = personalInfo_by_id_repo(userWorkExperience.personalInfoId,db)
+    userData = user_data_by_id_repo(db,userpersonalInfo.userId)
+    userWorkExperienceData=getworkExperienceByIdSchema(
+         workExperienceId=userWorkExperience.workExperienceId,
+         userId=userData.userId,
+        firstname=userData.firstname,
+        lastname=userData.lastname,
+        currentEmployer=userWorkExperience.currentEmployer, 
+        totalYears=userWorkExperience.totalYears,
+        personalInfoId=userWorkExperience.personalInfoId
+    )
+    return userWorkExperienceData
 
 def add_workExperience_service(workExperience,db,current_user):
     add_workExperience_repo(workExperience,db,current_user)

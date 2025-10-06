@@ -1,8 +1,10 @@
-from fastapi import  HTTPException
-from repositories.user_repository import get_users_repo,add_user_repo,user_data_by_id_repo,update_user_repo,delete_user_repo,hardDelete_user_repo
+from repositories.user_repository import get_users_repo,add_user_repo,update_user_repo,delete_user_repo,hardDelete_user_repo,user_data_by_id_repo
 
 def get_users_service(db):
-    return get_users_repo(db)   
+    return get_users_repo(db) 
+
+def get_user_by_id_service(db,userId):
+    return user_data_by_id_repo(db,userId)   
 
 def add_user_service(userData,db,current_user):
     add_user_repo(userData,db,current_user)

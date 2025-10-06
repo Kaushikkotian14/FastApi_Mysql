@@ -10,7 +10,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def create_access_token(user):
     to_encode = {'sub':user.email,'userId':user.userId,'password':user.password}
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -22,4 +22,4 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def jwt_decode(token):
-    return jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
+    return jwt.decode(token,SECRET_KEY,algorithms=ALGORITHM)
