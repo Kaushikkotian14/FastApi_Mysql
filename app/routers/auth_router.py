@@ -12,9 +12,10 @@ router = APIRouter()
 
 @router.post("/register",status_code=status.HTTP_201_CREATED)
 async def register_user(db:db_dependency, register_user:userSchema):
+    
     return create_user_service(register_user, db) 
 
-@router.post("/login",response_model=tokenSchema)
+@router.post("/login",status_code=status.HTTP_202_ACCEPTED)
 async def login(form_data:Annotated[OAuth2PasswordRequestForm,Depends()],db:db_dependency):
     user = authenticate_user(form_data.username,form_data.password,db)
     if not user :

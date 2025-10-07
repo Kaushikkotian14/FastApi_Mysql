@@ -4,15 +4,13 @@ from datetime import datetime
 
 
 def personalInfo_by_id_repo(personalInfoId,db):
-    personalInfo=db.query(personalInfoModel).filter(personalInfoModel.personalInfoId == personalInfoId).first()
+    personalInfo=db.query(personalInfoModel).filter(personalInfoModel.personalInfoId == personalInfoId, personalInfoModel.deleted_by == None).first()
+    if personalInfo is None:
+        raise HTTPException(status_code=404, detail='PersonalInfo not found')
     return personalInfo
 
 def get_personalInfos_repo(db):
     personalInfo=db.query(personalInfoModel).filter(personalInfoModel.deleted_by == None).all()
-    return personalInfo
-
-def personalInfo_by_id_repo(personalInfoId,db):
-    personalInfo=db.query(personalInfoModel).filter(personalInfoModel.personalInfoId == personalInfoId).first()
     return personalInfo
 
 

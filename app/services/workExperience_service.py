@@ -2,9 +2,23 @@ from repositories.workExperience_repo import  get_workExperiences_repo,update_wo
 from repositories.personalInfo_repo import personalInfo_by_id_repo
 from repositories.user_repository import user_data_by_id_repo
 from schemas.workExperience_schema.getworkExperienceByIdSchema import getworkExperienceByIdSchema
+from schemas.workExperience_schema.getworkExperienceListSchema import getworkExperienceListSchema
 
 def get_workExperiences_service(db):
-    return get_workExperiences_repo(db)
+     workExperiences=get_workExperiences_repo(db)
+     workExperienceList=[]
+     for workExperience in workExperiences:
+        userWorkExperience = workExperience_by_id_repo(workExperience.workExperienceId,db)
+        userpersonalInfo = personalInfo_by_id_repo(userWorkExperience.personalInfoId,db)
+        userData = user_data_by_id_repo(db,userpersonalInfo.userId)
+        userWorkExperienceData=getworkExperienceListSchema(
+            firstname=userData.firstname,
+            lastname=userData.lastname,
+            currentEmployer=userWorkExperience.currentEmployer, 
+            totalYears=userWorkExperience.totalYears,
+        )
+        workExperienceList.append(userWorkExperienceData)
+     return workExperienceList
 
 def get_workExperience_by_id_service(workexperienceId,db):
     userWorkExperience = workExperience_by_id_repo(workexperienceId,db)

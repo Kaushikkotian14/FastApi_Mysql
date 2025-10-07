@@ -2,8 +2,10 @@ from repositories.auth_repo import create_user_repo
 from models.registerModel import registerModel
 from utils.token import get_password_hash
 from schemas.auth_schema.user_schema import userSchema
+import re
 
 def create_user_service(createUser,db):
+    createUser.email
     user = userSchema(
         email=createUser.email,
         password=get_password_hash(createUser.password),

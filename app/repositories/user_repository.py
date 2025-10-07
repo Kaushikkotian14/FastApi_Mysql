@@ -4,7 +4,9 @@ from datetime import datetime
 
 
 def user_data_by_id_repo(db,userId):
-    userData=db.query(userModel).filter(userModel.userId == userId and userModel.deleted_by == None).first()
+    userData=db.query(userModel).filter(userModel.userId == userId).first()
+    if userData is None:
+        raise HTTPException(status_code=404, detail='User not found')
     return userData
 
 def get_users_repo(db):
@@ -14,9 +16,10 @@ def get_users_repo(db):
 def add_user_repo(userData,db,current_user):
     userdata = userModel(**userData.model_dump())
     userdata.created_by = current_user.userId
-    db.add(userData)
+    
+    db.add(userdata)
     db.commit()
-    db.refresh(userData)
+    db.refresh(userdata)
 
 def update_user_repo(userId,updatedUserData,db,current_user):
     userData=user_data_by_id_repo(userId,db)

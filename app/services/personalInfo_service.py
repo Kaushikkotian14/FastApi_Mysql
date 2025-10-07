@@ -1,9 +1,22 @@
 from repositories.personalInfo_repo import personalInfo_by_id_repo, get_personalInfos_repo,update_personalInfo_repo,add_personalInfo_repo,delete_personalInfo_repo,hardDelete_personalInfo_repo
 from repositories.user_repository import user_data_by_id_repo
 from schemas.personalInfo_schema.getPersonalInfoByIdSchema import getPersonalInfoByIdSchema
+from schemas.personalInfo_schema.getPersonalInfoListSchema import getPersonalInfoListSchema
 
 def get_personalInfos_service(db):
-    return get_personalInfos_repo(db)
+    personalInfos= get_personalInfos_repo(db)
+    personalInfoList=[]
+    for personalInfo in personalInfos:
+        personalInfoData=getPersonalInfoListSchema(
+            firstname=user_data_by_id_repo(db,personalInfo.userId).firstname,
+            lastname=user_data_by_id_repo(db,personalInfo.userId).lastname,
+            professionalTitle =personalInfo.professionalTitle,
+            company= personalInfo.company,
+            department=personalInfo.department,
+            userId=personalInfo.userId
+        )
+        personalInfoList.append(personalInfoData)
+    return personalInfoList
 
 def get_personalInfo_by_id_service(personalInfoId,db):
      personalInfo = personalInfo_by_id_repo(personalInfoId,db)
@@ -14,8 +27,7 @@ def get_personalInfo_by_id_service(personalInfoId,db):
         lastname=userInfo.lastname,
         professionalTitle= personalInfo.professionalTitle,
         company= personalInfo.company,
-        department=personalInfo.department,
-        userId=personalInfo.userId
+        department=personalInfo.department
      )
      return userpersonalInfo
 

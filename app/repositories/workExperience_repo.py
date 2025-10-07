@@ -4,11 +4,15 @@ from datetime import datetime
 
 
 def workExperience_by_id_repo(workExperienceId,db):
-    workExperience=db.query(workExperienceModel).filter(workExperienceModel.workExperienceId == workExperienceId).first()
+    workExperience=db.query(workExperienceModel).filter(workExperienceModel.workExperienceId == workExperienceId,workExperienceModel.deleted_by == None ).first()
+    if workExperience is None:
+        raise HTTPException(status_code=404, detail='Work Experience not found')
     return workExperience
 
 def get_workExperiences_repo(db):
     workExperience=db.query(workExperienceModel).filter(workExperienceModel.deleted_by == None).all()
+    if workExperience is None:
+        raise HTTPException(status_code=404, detail='Work Experience not found')
     return workExperience
 
 def add_workExperience_repo(workExperience,db,current_user):

@@ -4,11 +4,15 @@ from datetime import datetime
 
 
 def technical_by_id_repo(technicalId,db):
-    technical=db.query(technicalModel).filter(technicalModel.technicalId == technicalId).first()
+    technical=db.query(technicalModel).filter(technicalModel.technicalId == technicalId,technicalModel.deleted_by == None).first()
+    if technical is None:
+        raise HTTPException(status_code=404, detail='Technical Skill not found')
     return technical
 
 def get_technicals_repo(db):
     technical=db.query(technicalModel).filter(technicalModel.deleted_by == None).all()
+    if technical is None:
+        raise HTTPException(status_code=404, detail='Technical Skill not found')
     return technical
 
 def add_technical_repo(technical,db,current_user):
