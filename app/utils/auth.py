@@ -1,12 +1,12 @@
 from fastapi import Depends, HTTPException,status
 from fastapi.security import OAuth2PasswordBearer
-from jose import  JWTError
+from jose import  JWTError,ExpiredSignatureError
 from utils.token import SECRET_KEY, ALGORITHM
 from schemas.auth_schema.user_schema import userSchema
 from schemas.auth_schema.token_schema import tokenSchema
 from  schemas.auth_schema.user_schema import userSchema
 from models.registerModel import registerModel
-from utils.token import verify_password,jwt_decode
+from utils.token import verify_password,jwt_decode,create_access_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -24,11 +24,13 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         payload = jwt_decode(token)
         email: str = payload.get("sub")
         userId:int = payload.get("userId")
-        password:str = payload.get("password")
+        password:str = payload.get("password")     
         if email is None or userId is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid User")
-        user = userSchema(email=email,userId=userId,password=password)
+        user = userSchema(email=email,userId=userId,password=password,token=token)
         return  user
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail='Token has expired.')
     except JWTError:
          raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid User")
     

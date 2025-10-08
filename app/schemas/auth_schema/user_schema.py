@@ -6,6 +6,7 @@ class userSchema(BaseModel):
     email: str
     password:str
     userId:int
+    token:str
 
     @field_validator("email")
     def validate_email(cls, v):

@@ -1,10 +1,11 @@
 from passlib.context import CryptContext
-from jose import jwt
+from jose import jwt,ExpiredSignatureError
+from fastapi import HTTPException
 from datetime import datetime, timedelta
 
 SECRET_KEY = "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 300
+ACCESS_TOKEN_EXPIRE_MINUTES = 1
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -13,7 +14,19 @@ def create_access_token(user):
     expire = datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    print("hi",encoded_jwt,expire)
     return encoded_jwt
+
+# def verify_token(token):
+#     print("HI",token)
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         return payload
+#     except ExpiredSignatureError:
+#         raise HTTPException(status_code=401, detail='Token has expired.')
+#     except Exception as e:
+#         raise HTTPException(status_code=498, detail=f"Token is invalid: {e}")
+
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -22,4 +35,5 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def jwt_decode(token):
+    
     return jwt.decode(token,SECRET_KEY,algorithms=ALGORITHM)
