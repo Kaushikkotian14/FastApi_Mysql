@@ -21,8 +21,9 @@ def add_personalInfo_repo(personalInfo,db,current_user):
     db.commit()
     db.refresh(personal_Info)
 
-def update_personalInfo_repo(userId,updatedpersonalInfo,db,current_user):
-    personalInfo=personalInfo_by_id_repo(userId,db)
+def update_personalInfo_repo(personalInfoId,updatedpersonalInfo,db,current_user):
+    
+    personalInfo=personalInfo_by_id_repo(personalInfoId,db)
     if personalInfo is None:
         raise HTTPException(status_code=404, detail='PersonalInfo not found')
     personalInfo.professionalTitle= updatedpersonalInfo.professionalTitle

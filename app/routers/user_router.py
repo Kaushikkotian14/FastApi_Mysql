@@ -29,12 +29,12 @@ async def addUser(UserData: createUser, db:db_dependency,current_user=Depends(ge
     
 @router.put("/update-user/{id}",status_code=status.HTTP_200_OK)
 async def updateUser(userId:int,updatedUserData: UserUpdate,db:db_dependency,current_user=Depends(get_current_user)):
-    return update_user_service(id,updatedUserData,db,current_user)
+    return update_user_service(userId,updatedUserData,db,current_user)
 
 @router.put("/delete-user/{id}",status_code=status.HTTP_204_NO_CONTENT)
-async def deleteUser(id:int,db:db_dependency,current_user=Depends(get_current_user)):
-    return delete_user_service(id,db,current_user)
+async def deleteUser(userId:int,db:db_dependency,current_user=Depends(get_current_user)):
+    return delete_user_service(userId,db,current_user)
 
 @router.delete("/hard-delete-user/{id}",status_code=status.HTTP_204_NO_CONTENT)
-async def hardDelete(id:int, db:db_dependency):
-    return hardDelete_user_service(id,db)
+async def hardDelete(userId:int, db:db_dependency):
+    return hardDelete_user_service(userId,db)

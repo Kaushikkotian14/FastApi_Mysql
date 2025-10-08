@@ -32,12 +32,12 @@ async def addpersonalInfo(personalInfo: createPersonalInfo, db:db_dependency,cur
     
 @router.put("/update-personalInfo/{id}",status_code=status.HTTP_200_OK)
 async def updatePersonalInfo(personalInfoId:int,updatedPersonalInfo: updatePersonalInfo,db:db_dependency,current_user=Depends(get_current_user)):
-    return  update_personalInfo_service(id,updatedPersonalInfo,db,current_user)
+    return  update_personalInfo_service(personalInfoId,updatedPersonalInfo,db,current_user)
 
 @router.put("/delete-personalInfo/{id}",status_code=status.HTTP_204_NO_CONTENT)
-async def deletePersonalInfo(id:int,db:db_dependency,current_user=Depends(get_current_user)):
-    return  delete_personalInfo_service(id,db,current_user)
+async def deletePersonalInfo(personalInfoId:int,db:db_dependency,current_user=Depends(get_current_user)):
+    return  delete_personalInfo_service(personalInfoId,db,current_user)
 
 @router.delete("/hard-delete-personalInfo/{id}",status_code=status.HTTP_204_NO_CONTENT)
-async def hardDeletePersonalInfo(id:int, db:db_dependency):
-    return  hardDelete_personalInfo_service(id,db)
+async def hardDeletePersonalInfo(personalInfoId:int, db:db_dependency):
+    return  hardDelete_personalInfo_service(personalInfoId,db)

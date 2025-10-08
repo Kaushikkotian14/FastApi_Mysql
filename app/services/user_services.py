@@ -4,16 +4,16 @@ from fastapi import HTTPException
 
 def get_users_service(db):
     users= get_users_repo(db)
-    usersData=[]
-    for user in users:
-        userData=getUserUsersListSchema(
-            firstName= user.firstname, 
-            lastName=user.lastname, 
-            phoneNumber=user.phoneNumber,
-            age=user.age 
-        )
-        usersData.append(userData)
-    return usersData
+    # usersData=[]
+    # for user in users:
+    #     userData=getUserUsersListSchema(
+    #         firstName= user.firstname, 
+    #         lastName=user.lastname, 
+    #         phoneNumber=user.phoneNumber,
+    #         age=user.age 
+    #     )
+    #     usersData.append(userData)
+    return users
 
 
 def get_user_by_id_service(db,userId):

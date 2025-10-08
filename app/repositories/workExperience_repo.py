@@ -28,7 +28,7 @@ def update_workExperience_repo(userId,updatedworkExperience,db,current_user):
         raise HTTPException(status_code=404, detail='Work Experience not found')
     workExperience.currentEmployer= updatedworkExperience.currentEmployer
     workExperience.totalYears= updatedworkExperience.totalYears
-    workExperience.personalInfoIderId=updatedworkExperience.personalInfoIderId
+    workExperience.personalInfoId=updatedworkExperience.personalInfoId
     workExperience.is_active=updatedworkExperience.is_active
     workExperience.changed_by=current_user.userId
     db.commit()

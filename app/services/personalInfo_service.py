@@ -25,6 +25,7 @@ def get_personalInfo_by_id_service(personalInfoId,db):
         personalInfoId=personalInfo.personalInfoId,
         firstname=userInfo.firstname,
         lastname=userInfo.lastname,
+        userId=userInfo.userId,
         professionalTitle= personalInfo.professionalTitle,
         company= personalInfo.company,
         department=personalInfo.department
@@ -35,8 +36,8 @@ def add_personalInfo_service(personalInfo,db,current_user):
     add_personalInfo_repo(personalInfo,db,current_user)
     return {"msg": "user's personalInfo created"}
 
-def update_personalInfo_service(userId,updatedpersonalInfo,db,current_user):
-    update_personalInfo_repo(userId,updatedpersonalInfo,db,current_user)
+def update_personalInfo_service(personalInfoId,updatedpersonalInfo,db,current_user):
+    update_personalInfo_repo(personalInfoId,updatedpersonalInfo,db,current_user)
     return {"msg": "user's personalInfo is updated"}
 
 def delete_personalInfo_service(userId,db,current_user):

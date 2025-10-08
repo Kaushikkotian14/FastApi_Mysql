@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 class getUserUsersListSchema(BaseModel):
-    firstName: str 
-    lastName: str 
+    firstname: str 
+    lastname: str 
     phoneNumber: str
     age: int 
     

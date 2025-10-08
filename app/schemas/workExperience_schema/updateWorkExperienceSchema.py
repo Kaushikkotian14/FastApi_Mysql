@@ -4,6 +4,6 @@ from pydantic import BaseModel
 class updateWorkExperience(BaseModel):
     currentEmployer: Optional[str] 
     totalYears: Optional[int] 
-    personalInfoIderId: Optional[int]
+    personalInfoId: Optional[int]
     is_active: Optional[bool] 
 

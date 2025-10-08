@@ -22,7 +22,7 @@ def add_user_repo(userData,db,current_user):
     db.refresh(userdata)
 
 def update_user_repo(userId,updatedUserData,db,current_user):
-    userData=user_data_by_id_repo(userId,db)
+    userData=user_data_by_id_repo(db,userId)
     if userData is None:
         raise HTTPException(status_code=404, detail='User not found')
     userData.firstname= updatedUserData.firstname
@@ -35,7 +35,7 @@ def update_user_repo(userId,updatedUserData,db,current_user):
     db.refresh(userData)
     
 def delete_user_repo(userId,db,current_user):
-    userData=user_data_by_id_repo(userId,db)
+    userData=user_data_by_id_repo(db,userId)
     if userData is None:
         raise HTTPException(status_code=404, detail='User not found')
     userData.is_active=False
@@ -45,7 +45,7 @@ def delete_user_repo(userId,db,current_user):
     db.refresh(userData)
 
 def hardDelete_user_repo(userId,db):
-    userData=user_data_by_id_repo(userId,db)
+    userData=user_data_by_id_repo(db,userId)
     if userData is None:
         raise HTTPException(status_code=404, detail='User not found')
     db.delete(userData)
